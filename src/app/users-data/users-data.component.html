@@ -1,0 +1,76 @@
+<div class="root">
+  @if (isToastVisible) {
+    <div class="toast">
+      <span>User {{ newUserName }} created</span>
+      <button type="button" class="toast-close-button" (click)="onIsToastVisibleChange(false)">x</button>
+    </div>
+  }
+
+  <div class="user-form">
+    <h2>Create user</h2>
+    <form>
+      <label htmlFor="name" class="label">
+        Name
+        <input
+          type="text"
+          [value]="name"
+          class="input"
+          (input)="onNameChange($event)"
+        />
+      </label>
+      <label htmlFor="email" class="label">
+        Email
+        <input
+          type="email"
+          [value]="email"
+          class="input"
+          (input)="onEmailChange($event)"
+        />
+      </label>
+      <button type="button" class="submit-button" (click)="createUser()">Create</button>
+    </form>
+  </div>
+
+  @if (loading) {
+    <h2>Loading...</h2>
+  }
+
+  @if (error) {
+    <h4>Error : {{ error.message }}</h4>
+  }
+
+  @if (users) {
+    <div class="cards">
+      @for (user of users; track user.id) {
+        <div class="card">
+          <h3>{{ user.name }}</h3>
+          <p><span>Email: </span>{{ user.email }}</p>
+          <button type="button" class="delete-button" (click)="deleteUser(user.id)">Delete</button>
+
+          <div class="posts">
+            <h4>{{ user.posts?.length ? "Posts:" : "No posts yet" }}</h4>
+
+            @if (user.posts?.length) {
+              @for (post of user.posts; track post.id) {
+                <div class="post">
+                  <p>{{ post.text }}</p>
+                  <button type="button" class="post-delete-button" (click)="deletePost(post.id)">x</button>
+                </div>
+              }
+            }
+          </div>
+
+          <input
+            type="text"
+            [value]="textData[user.id] || ''"
+            class="input"
+            placeholder="Type something..."
+            (input)="onTextDataChange($event, user.id)"
+          />
+
+          <button type="button" class="add-button" (click)="createPost(user.id)">Add</button>
+        </div>
+      }
+    </div>
+  }
+</div>
