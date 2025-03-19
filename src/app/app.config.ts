@@ -19,14 +19,16 @@ export const appConfig: ApplicationConfig = {
     provideApollo(() => {
       const httpLink = inject(HttpLink);
       // Create an http link:
+      // http://localhost:4000/graphql
       const http = httpLink.create({
-        uri: 'http://localhost:4000/graphql',
+        uri: 'http://109.73.206.183:8000/graphql',
       });
 
       // Create a WebSocket link:
+      // ws://localhost:4000/graphql
       const ws = new GraphQLWsLink(
         createClient({
-          url: 'ws://localhost:4000/graphql',
+          url: 'ws://109.73.206.183:8000/graphql',
         }),
       );
 
